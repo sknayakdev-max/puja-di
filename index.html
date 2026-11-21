@@ -72,6 +72,22 @@ a{color:var(--peacock)}
 .names-block{position:absolute;left:0;right:0;top:13.5%;z-index:2;text-align:center;padding:0 1.5rem}
 .names{margin:0;font-family:var(--script);font-weight:400;color:var(--maroon);line-height:.95;text-shadow:0 1px 0 rgba(255,250,240,.9),0 0 18px rgba(255,248,232,.9)}
 .names .n{display:block;font-size:clamp(3.4rem,14vw,4.4rem)}
+.names .letter{
+  display:inline-block;
+  animation-play-state:paused;
+  transform-origin:50% 80%;
+  animation:nameWave 2.5s ease-in-out 1 both;
+  animation-delay:var(--wave-delay,0s);
+  will-change:transform;
+}
+@keyframes nameWave{
+  0%,100%{transform:translateY(0) rotate(0deg)}
+  22%{transform:translateY(-5px) rotate(-3deg)}
+  48%{transform:translateY(1px) rotate(2deg)}
+  72%{transform:translateY(-2px) rotate(-1deg)}
+}
+@media (prefers-reduced-motion:reduce){.names .letter{animation:none;will-change:auto}}
+
 .names .amp{display:block;font-size:clamp(2.2rem,8vw,2.9rem);color:var(--gold);margin:.1em 0}
 .invite-line{margin:.9rem 0 0;font-size:clamp(1.02rem,3.6vw,1.18rem);color:var(--ink);letter-spacing:.02em;line-height:1.45;text-shadow:0 0 12px rgba(255,248,232,.95)}
 .invite-line strong{display:block;font-weight:600;color:var(--maroon);font-size:1.08em;letter-spacing:.06em;margin-top:.15rem}
@@ -100,6 +116,35 @@ a{color:var(--peacock)}
 
 .scroll-cue{display:block;margin:1.4rem auto 0;padding-bottom:.5rem;text-align:center;color:var(--ink-soft);font-style:italic;text-decoration:none;font-size:1.05rem}
 .scroll-cue svg{display:block;margin:.3rem auto 0;color:var(--gold)}
+
+
+/* ---------- Wedding background music ---------- */
+.music-toggle{
+  position:fixed;right:1rem;bottom:1rem;z-index:60;
+  display:flex;align-items:center;gap:.45rem;
+  padding:.55rem 1rem;border:1px solid var(--gold);
+  border-radius:999px;background:var(--maroon);color:var(--blossom);
+  font:inherit;font-size:.95rem;letter-spacing:.02em;
+  box-shadow:0 4px 16px rgba(74,58,42,.18);cursor:pointer
+}
+.music-toggle:hover{filter:brightness(1.08)}
+.music-toggle:focus-visible{outline:2px solid var(--rose);outline-offset:3px}
+.music-toggle[aria-pressed="false"]{background:var(--paper);color:var(--maroon)}
+
+/* ---------- Bride's flowing dupatta ---------- */
+.bride-dupatta{
+  transform-box:fill-box;
+  transform-origin:50% 3%;
+  animation:brideDupattaFloat 4.2s ease-in-out infinite;
+}
+@keyframes brideDupattaFloat{
+  0%,100%{transform:translate(0,0) rotate(0deg)}
+  25%{transform:translate(-2px,-1px) rotate(-1.5deg)}
+  50%{transform:translate(2px,-2px) rotate(1.8deg)}
+  75%{transform:translate(1px,0) rotate(.6deg)}
+}
+body.music-paused .bride-dupatta{animation-play-state:paused}
+@media (prefers-reduced-motion:reduce){.bride-dupatta{animation:none}}
 
 /* ---------- Sections ---------- */
 section{padding:clamp(3.5rem,9vw,6.5rem) 1.25rem;position:relative}
@@ -195,6 +240,91 @@ footer p{margin:.4rem 0}
   .doors.open{opacity:0}
   .petal{display:none}
 }
+
+
+/* ===== Responsive refinements: phones, tablets, laptops and wide screens ===== */
+*, *::before, *::after { box-sizing: border-box; }
+html { width: 100%; overflow-x: clip; -webkit-text-size-adjust: 100%; }
+body { width: 100%; min-width: 320px; overflow-x: clip; }
+img, svg, video, canvas { max-width: 100%; }
+button, input, textarea, select { max-width: 100%; font: inherit; }
+.wrap { width: min(100% - 2.5rem, 1080px); margin-inline: auto; }
+.narrow { width: min(100%, 680px); margin-inline: auto; }
+section { min-width: 0; }
+section .wrap > * { min-width: 0; }
+p, address, dd, li { overflow-wrap: anywhere; }
+.timeline, .venue, .count, .two-lands { min-width: 0; }
+.count > div { min-width: 0; }
+.venue > *, .timeline li > *, .two-lands > * { min-width: 0; }
+.canvas { width: min(100%, 500px); height: min(100svh, 940px); }
+.names-block { padding-inline: clamp(.75rem, 4vw, 1.5rem); }
+.names .n { font-size: clamp(2.45rem, 9vw, 4.4rem); }
+.names .amp { font-size: clamp(1.8rem, 6vw, 2.9rem); }
+.invite-line { font-size: clamp(.88rem, 2.7vw, 1.18rem); }
+.medallion { max-width: 100%; }
+.toran { max-width: 100%; }
+footer { padding-inline: 1rem; }
+
+/* Small phones */
+@media (max-width: 380px) {
+  body { font-size: 1rem; }
+  .wrap { width: min(100% - 1.5rem, 1080px); }
+  .canvas { min-height: 600px; }
+  .names-block { top: 12%; padding-inline: .55rem; }
+  .names .n { font-size: clamp(2.15rem, 10vw, 3rem); }
+  .names .amp { font-size: 1.7rem; margin: .04em 0; }
+  .invite-line { font-size: .82rem; }
+  .count { gap: .45rem; }
+  .count > div { padding-inline: .25rem; }
+  .count b { font-size: clamp(1.4rem, 7vw, 2rem); }
+  .timeline::before { left: 3.6rem; }
+  .timeline li { grid-template-columns: 3.6rem minmax(0, 1fr); gap: 0 .85rem; }
+  .timeline li::before { left: calc(3.6rem - 6px); }
+  .t-date b { font-size: 1.2rem; }
+  .seal { width: min(90vw, 360px); }
+  .seal-disc { max-width: 32vw; }
+}
+
+/* Phones and compact portrait devices */
+@media (min-width: 381px) and (max-width: 640px) {
+  .wrap { width: min(100% - 2rem, 1080px); }
+  .canvas { min-height: 620px; }
+  .names-block { top: 12.5%; }
+  .timeline::before { left: 4rem; }
+  .timeline li { grid-template-columns: 4rem minmax(0, 1fr); gap: 0 1rem; }
+  .timeline li::before { left: calc(4rem - 6px); }
+}
+
+/* Tablets and small laptops */
+@media (min-width: 641px) and (max-width: 1024px) {
+  .wrap { width: min(100% - 3rem, 900px); }
+  .canvas { width: min(100%, 500px); }
+  .venue { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: clamp(1rem, 3vw, 2.5rem); }
+  .timeline li { grid-template-columns: 5.5rem minmax(0, 1fr); }
+}
+
+/* Wide desktop */
+@media (min-width: 1200px) {
+  .wrap { width: min(100% - 4rem, 1120px); }
+  section { padding-block: clamp(3rem, 5vw, 5.5rem); }
+}
+
+/* Landscape phones: keep the invitation artwork within the visible viewport */
+@media (max-height: 520px) and (orientation: landscape) {
+  .canvas { height: min(100svh, 520px); min-height: 420px; }
+  .names-block { top: 7%; }
+  .names .n { font-size: clamp(2rem, 7vh, 3rem); }
+  .names .amp { font-size: clamp(1.4rem, 5vh, 2rem); margin: 0; }
+  .invite-line { margin-top: .35rem; font-size: .85rem; }
+  .seal { transform: scale(.82); }
+}
+
+/* Respect safe areas on notched phones */
+@supports (padding: max(0px)) {
+  .doors { padding-top: env(safe-area-inset-top); padding-bottom: env(safe-area-inset-bottom); }
+  footer { padding-bottom: max(3rem, env(safe-area-inset-bottom)); }
+}
+
 </style>
 </head>
 <body>
@@ -208,6 +338,14 @@ footer p{margin:.4rem 0}
     <p>You’re invited to celebrate</p>
   </div>
 </div>
+
+
+<audio id="weddingMusic" preload="auto" loop playsinline>
+  <source src="song.mp3" type="audio/mpeg">
+</audio>
+<button id="musicToggle" class="music-toggle" type="button" aria-label="Pause wedding music" aria-pressed="true">
+  <span aria-hidden="true">♫</span> Music on
+</button>
 
 <main id="main">
 <header class="hero" id="top">
@@ -317,9 +455,25 @@ footer p{margin:.4rem 0}
         <path d="M156,704 C174,710 200,710 219,704 L220,712 C200,718 172,718 154,712Z" fill="#D9A441"/>
         <path d="M168,670 C180,673 196,673 206,670" stroke="#D9A441" stroke-width="1.4" fill="none" opacity=".8"/>
         <path d="M162,690 C178,694 198,694 212,690" stroke="#D9A441" stroke-width="1" fill="none" opacity=".7"/>
-        <!-- dupatta over head and back -->
-        <path d="M176,582 C170,600 168,640 160,708 C176,700 184,660 194,640 C198,620 198,596 194,582 C190,574 180,574 176,582Z" fill="#E0566F" opacity=".72"/>
-        <path d="M176,584 C171,610 166,660 160,708" stroke="#E8B54A" stroke-width="1.6" fill="none"/>
+        <!-- bride's long dupatta: extended flowing drape -->
+        <g class="bride-dupatta">
+          <path d="M176,582
+                   C168,604 169,638 158,674
+                   C149,704 137,727 132,746
+                   C150,743 166,728 174,708
+                   C186,679 185,653 196,635
+                   C201,616 198,594 194,582
+                   C190,574 180,574 176,582Z"
+                fill="#E0566F" opacity=".76"/>
+          <path d="M176,584
+                   C169,612 169,650 157,687
+                   C148,713 140,733 134,742"
+                stroke="#E8B54A" stroke-width="1.8" fill="none"/>
+          <path d="M190,588 C194,615 187,644 179,669 C174,692 166,719 149,737"
+                stroke="#F6C875" stroke-width="1.1" fill="none" opacity=".9"/>
+          <path d="M138,738 Q145,744 153,739 M143,729 Q151,735 159,729"
+                stroke="#E8B54A" stroke-width="1.1" fill="none" opacity=".9"/>
+        </g>
         <circle cx="185" cy="584" r="8.5" fill="#2B1D14"/>
         <circle cx="185" cy="592" r="4" fill="#2B1D14"/>
         <path d="M177,580 C178,573 192,573 193,580" stroke="#E8B54A" stroke-width="1.6" fill="none"/>
@@ -429,54 +583,10 @@ footer p{margin:.4rem 0}
 
 <section id="rsvp" class="band" aria-labelledby="rsvp-h">
   <div class="wrap">
-    <h2 id="rsvp-h">Will you join us?</h2>
+    <h2 id="rsvp-h">Join us &amp; bless the newlyweds</h2>
     <div class="rule" aria-hidden="true"><svg width="120" height="12" viewBox="0 0 120 12"><path d="M0 6h50M70 6h50" stroke="currentColor"/><path d="M60 1l5 5-5 5-5-5z" fill="currentColor"/></svg></div>
-    <p class="lede">Kindly share your response with the family.</p>
-
-    <form id="rsvpForm" novalidate>
-      <div>
-        <label for="gName">Your name</label>
-        <input type="text" id="gName" name="guest" autocomplete="name" required>
-      </div>
-      <fieldset>
-        <legend>Will you attend?</legend>
-        <div class="choices">
-          <label><input type="radio" name="attend" value="yes" checked> Joyfully accepts</label>
-          <label><input type="radio" name="attend" value="no"> Regretfully declines</label>
-        </div>
-      </fieldset>
-      <div id="yesFields">
-        <div>
-          <label for="gCount">Number of guests <span class="hint">including you</span></label>
-          <input type="number" id="gCount" name="count" min="1" max="8" value="1" inputmode="numeric">
-        </div>
-        <fieldset style="margin-top:1.3rem">
-          <legend>Which celebrations will you join?</legend>
-          <div class="choices" id="eventChoices"></div>
-        </fieldset>
-        <div style="margin-top:1.3rem">
-          <label for="gDiet">Dietary needs <span class="hint">optional</span></label>
-          <input type="text" id="gDiet" name="diet" placeholder="Vegetarian, Jain, no nuts…">
-        </div>
-      </div>
-      <div>
-        <label for="gNote">A note for the couple <span class="hint">optional</span></label>
-        <textarea id="gNote" name="note"></textarea>
-      </div>
-      <p class="error" id="formError" role="alert" hidden></p>
-      <div style="text-align:center"><button class="btn solid" type="submit">Prepare my RSVP</button></div>
-    </form>
-
-    <div class="ready" id="ready" hidden tabindex="-1">
-      <h3>Thank you</h3>
-      <p>Your reply is ready. Send it to the family on WhatsApp, or copy it to share another way.</p>
-      <div class="actions">
-        <a class="btn solid" id="waLink" href="#" target="_blank" rel="noopener">Send on WhatsApp</a>
-        <button class="btn" type="button" id="copyBtn">Copy reply</button>
-      </div>
-      <pre id="rsvpText"></pre>
-      <button class="linkish" type="button" id="editBtn">Edit my reply</button>
-    </div>
+    <p class="lede">With joyful hearts, we invite you to celebrate the wedding of Sibani and Ashutosh. Your presence, love, and blessings will make our special day even more beautiful. Please join us and bless the newlyweds as they begin their journey together.</p>
+    <p class="lede" style="margin-top:-1rem">We look forward to celebrating with you and your family.</p>
   </div>
 </section>
 </main>
@@ -491,13 +601,27 @@ footer p{margin:.4rem 0}
 (function(){
   /* ====== Edit these details ====== */
   var WEDDING = new Date("2026-12-03T00:00:00+05:30");
-  var RSVP_WHATSAPP = "918093103627"; // country code + number, no "+" or spaces
   var EVENTS = [
     {id:"mangalkrutya", name:"Mangalkrutya", d:"03", m:"December", time:"Thursday, 3 December 2026", place:"Nayagarh", text:"Wedding rituals and family celebrations.", dress:"Traditional attire"},
     {id:"wedding", name:"Marriage & Panigrahan", d:"04", m:"December", time:"Friday, 4 December 2026", place:"Iswar Kalyan Mandap, Nayagarh", text:"The wedding ceremony and Panigrahan.", dress:"Traditional attire", main:true},
     {id:"reception", name:"Reception & Lunch", d:"04", m:"December", time:"Friday, 1:00 P.M. onwards", place:"Iswar Kalyan Mandap, near New Bus Stand, Nayagarh", text:"Join us for the reception and lunch.", dress:"Traditional attire"}
   ];
   /* ================================= */
+
+  // Animate each letter of the couple's names in a soft, staggered wave.
+  document.querySelectorAll(".names .n").forEach(function(name){
+    var label = name.textContent;
+    name.setAttribute("aria-label", label);
+    name.textContent = "";
+    Array.from(label).forEach(function(character, index){
+      var letter = document.createElement("span");
+      letter.className = "letter";
+      letter.textContent = character === " " ? "\u00a0" : character;
+      letter.style.setProperty("--wave-delay", (index * 0.09) + "s");
+      letter.setAttribute("aria-hidden", "true");
+      name.appendChild(letter);
+    });
+  });
 
   var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   var NS = "http://www.w3.org/2000/svg";
@@ -616,7 +740,38 @@ footer p{margin:.4rem 0}
       document.body.appendChild(p);
     }
   }
+  var music = document.getElementById("weddingMusic");
+  var musicToggle = document.getElementById("musicToggle");
+  document.body.classList.add("music-paused");
+  function setMusicButton(playing){
+    document.body.classList.toggle("music-paused", !playing);
+    musicToggle.setAttribute("aria-pressed", playing ? "true" : "false");
+    musicToggle.setAttribute("aria-label", playing ? "Pause wedding music" : "Play wedding music");
+    musicToggle.innerHTML = playing ? '<span aria-hidden="true">♫</span> Music on' : '<span aria-hidden="true">♫</span> Play music';
+  }
+  musicToggle.addEventListener("click", function(){
+    if (music.paused){
+      music.play().then(function(){ setMusicButton(true); }).catch(function(){ setMusicButton(false); });
+    } else {
+      music.pause();
+      setMusicButton(false);
+    }
+  });
+  music.addEventListener("pause", function(){ setMusicButton(false); });
+  var namesWaveStarted = false;
+  music.addEventListener("play", function(){
+    setMusicButton(true);
+    if (!namesWaveStarted){
+      namesWaveStarted = true;
+      document.body.classList.add("names-wave-start");
+      document.querySelectorAll(".names .letter").forEach(function(letter){
+        letter.style.animationPlayState = "running";
+      });
+    }
+  });
+
   function openDoors(){
+    music.play().then(function(){ setMusicButton(true); }).catch(function(){ setMusicButton(false); });
     doors.classList.add("open");
     document.body.style.overflow = "";
     setTimeout(petals, reduce ? 0 : 500);
@@ -664,51 +819,6 @@ footer p{margin:.4rem 0}
       '<span class="dress">Dress: '+e.dress+'</span></div></li>';
   }).join("");
 
-  // RSVP
-  var choiceBox = document.getElementById("eventChoices");
-  choiceBox.innerHTML = EVENTS.map(function(e){
-    return '<label><input type="checkbox" name="events" value="'+e.id+'"'+(e.main?' checked':'')+'> '+e.name+'</label>';
-  }).join("");
-  var form = document.getElementById("rsvpForm");
-  var yesFields = document.getElementById("yesFields");
-  var err = document.getElementById("formError");
-  var ready = document.getElementById("ready");
-  var text = document.getElementById("rsvpText");
-  form.addEventListener("change", function(){
-    yesFields.hidden = form.attend.value === "no";
-  });
-  form.addEventListener("submit", function(ev){
-    ev.preventDefault();
-    var name = form.guest.value.trim();
-    if (!name){ err.textContent = "Add your name so the family knows who’s replying."; err.hidden = false; form.guest.focus(); return; }
-    err.hidden = true;
-    var yes = form.attend.value === "yes";
-    var lines = ["RSVP for Sibani & Ashutosh’s wedding", "Name: " + name];
-    if (yes){
-      var picked = Array.prototype.filter.call(form.querySelectorAll('input[name=events]:checked'), function(c){return c;})
-        .map(function(c){ return EVENTS.filter(function(e){return e.id===c.value;})[0].name; });
-      lines.push("Attending: Yes, " + (form.count.value || 1) + " guest(s)");
-      lines.push("Celebrations: " + (picked.length ? picked.join(", ") : "Not specified"));
-      if (form.diet.value.trim()) lines.push("Dietary needs: " + form.diet.value.trim());
-    } else {
-      lines.push("Attending: Regretfully cannot attend");
-    }
-    if (form.note.value.trim()) lines.push("Note: " + form.note.value.trim());
-    var msg = lines.join("\n");
-    text.textContent = msg;
-    document.getElementById("waLink").href = "https://wa.me/" + RSVP_WHATSAPP + "?text=" + encodeURIComponent(msg);
-    form.hidden = true; ready.hidden = false; ready.focus();
-  });
-  document.getElementById("editBtn").addEventListener("click", function(){
-    ready.hidden = true; form.hidden = false; form.guest.focus();
-  });
-  document.getElementById("copyBtn").addEventListener("click", function(){
-    var b = this;
-    try {
-      navigator.clipboard.writeText(text.textContent).then(function(){ b.textContent = "Copied"; setTimeout(function(){ b.textContent = "Copy reply"; }, 2000); },
-        function(){ b.textContent = "Select the text below to copy"; });
-    } catch(e){ b.textContent = "Select the text below to copy"; }
-  });
 })();
 </script>
 </body>
